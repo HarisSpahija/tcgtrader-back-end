@@ -1,5 +1,5 @@
 const graphql = require("graphql");
-const db = require("../pgAdaptor").db;
+const db = require("../db/pgAdaptor").db;
 const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean } = graphql;
 const { ProjectType } = require("./types");
 

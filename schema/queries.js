@@ -1,4 +1,4 @@
-const { db } = require("..db//pgAdaptor");
+const { db } = require("../db/pgAdaptor");
 const { GraphQLObjectType, GraphQLID } = require("graphql");
 const { UserType, ProjectType } = require("./types");
 
