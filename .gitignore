@@ -1,0 +1,48 @@
+Skip to content
+ expressjs / express
+Code Issues 114 Pull requests 56 Wiki Security Pulse Community
+express/.gitignore
+@dougwilson dougwilson build: support Node.js 8.x
+94fdb67 on 26 Sep 2017
+@tj@dougwilson@Laboratory@jherdman@Fishrock123@aheckmann
+28 lines (20 sloc)  203 Bytes
+  
+# OS X
+.DS_Store*
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+*~
+
+
+# npm
+node_modules
+package-lock.json
+*.log
+*.gz
+
+
+# Coveralls
+coverage
+
+# Benchmarking
+benchmarks/graphs
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
