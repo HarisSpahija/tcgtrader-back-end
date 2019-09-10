@@ -13,7 +13,7 @@ const {
 //the data to retrieve or mutate the data  
 
 var fakeCardDatabase = [
-    { name:"Lesseer Masticore", cmc:2, id:1},
+    { name:"Lesser Masticore", cmc:2, id:1},
     { name: "Ranging Raptors", cmc:3, id: 2},
     { name: "Infuse with the Elements", cmc:4, id: 3}
 ]
