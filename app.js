@@ -2,8 +2,8 @@ const express = require("express");
 const graphql = require("graphql");
 const expressGraphQl = require("express-graphql");
 const { GraphQLSchema } = graphql;
-const { query } = require("./schemas/queries");
-const { mutation } = require("./schemas/mutations");
+const { query } = require("./schema/queries");
+const { mutation } = require("./schema/mutations");
 
 
 const app = express();
