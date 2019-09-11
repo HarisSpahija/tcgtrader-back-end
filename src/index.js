@@ -5,21 +5,33 @@ import { GraphQLServer } from "graphql-yoga";
 // (scalar) - String, Bolean, Int, Float, ID
 const typeDefs = `
     type Query {
-        cardName: String!
-        convertedManaCost: Int!
+        id: ID!
+        name: String!
         cardText: String!
-        flavourText: String!     
+        flavourText: String
+        convertedManaCost: Int!
+        standardLegal: Boolean!
+        price: Float  
     }
 `;
 
 // Resolvers
 const resolvers = {
   Query: {
-    cardName() {
+    id() {
+        return 1
+    },
+    name() {
       return "Ranging Raptors";
     },
     convertedManaCost() {
         return 3
+    },
+    standardLegal() {
+        return true
+    },
+    price() {
+        return 0.32
     },
     cardText() {
         return "Enrage - Whenever Ranging Raptors is dealt damage, you may search your library for a basic land card, put i tonto the battlefield tapped, then shuffle your library."
