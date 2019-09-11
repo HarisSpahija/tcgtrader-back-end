@@ -1,0 +1,36 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "Backend for TCGTrader",
+  "main": "index.js",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.5.4",
+    "graphql-tools": "^4.0.5",
+    "merge-graphql-schemas": "^1.7.0",
+    "nodemon": "^1.19.2",
+    "pg-promise": "^9.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HarisSpahija/tcgtrader-back-end.git"
+  },
+  "author": "Haris Spahija",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HarisSpahija/tcgtrader-back-end/issues"
+  },
+  "homepage": "https://github.com/HarisSpahija/tcgtrader-back-end#readme"
+}
