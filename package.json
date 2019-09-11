@@ -16,10 +16,11 @@
     "graphql-tools": "^4.0.5",
     "graphql-yoga": "^1.18.3",
     "merge-graphql-schemas": "^1.7.0",
-    "nodemon": "^1.19.2",
     "pg-promise": "^9.1.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "babel-node src/index.js"
