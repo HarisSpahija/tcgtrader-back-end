@@ -1,4 +1,5 @@
 import { GraphQLServer } from "graphql-yoga";
+import { PossibleFragmentSpreads } from "graphql/validation/rules/PossibleFragmentSpreads";
 
 // Demo user data
 const users = [
@@ -26,6 +27,24 @@ const users = [
     id: "5",
     name: "Sophie",
     email: "sophie@example.com"
+  }
+];
+
+const requestLists = [
+  {
+    id: "1",
+    owner: "1",
+    cards: ["1", "2", "3"]
+  },
+  {
+    id: "2",
+    owner: "4",
+    cards: ["1"]
+  },
+  {
+    id: "3",
+    owner: "5",
+    cards: ["2"]
   }
 ];
 
@@ -57,9 +76,10 @@ const cards = [
     type: "Land",
     cardText:
       "{T}, Sacrifice Terramorphic Expanse: Search your library for a basic land card and put it onto the battlefield tapped. Then shuffle your library.",
-    flavourText: "Take two steps north into the unsettled future, south into the unquiet past, easy into the present day, or west into the great unknown.",
+    flavourText:
+      "Take two steps north into the unsettled future, south into the unquiet past, easy into the present day, or west into the great unknown.",
     standardLegal: false,
-    price: 0.50
+    price: 0.5
   }
 ];
 // Type definitions (schema)
@@ -68,8 +88,9 @@ const cards = [
 const typeDefs = `
     type Query {
         users(query: String): [User!]!
-        me: User!
         cards(query: String): [Card!]!
+        requestLists: [RequestLists]
+        me: User!
     }
 
     type Card {
@@ -88,13 +109,19 @@ const typeDefs = `
         name: String!
         email: String!
         age: Int
-        collection: Card!
+        requestList: RequestLists
+    }
+
+    type RequestLists {
+      id: ID!
+      owner: User!
+      cards: [Card!]!
     }
 `;
 
 // Resolvers
-// parent =
-// arg = contains arguments supplied to query
+// parent = contains arguments supplied from parent resolver
+// arg = contains arguments supplied from query
 // ctx = context for contextual data such as login tokens
 // info = information about the operation sent to server
 const resolvers = {
@@ -114,26 +141,44 @@ const resolvers = {
       }
 
       return cards.filter(card => {
-        const isNamematch = card.name.toLowerCase().includes(args.query.toLowerCase());
-        const isTypeMatch = card.type.toLowerCase().includes(args.query.toLowerCase());
-        return isNamematch || isTypeMatch
+        const isNamematch = card.name
+          .toLowerCase()
+          .includes(args.query.toLowerCase());
+        const isTypeMatch = card.type
+          .toLowerCase()
+          .includes(args.query.toLowerCase());
+        return isNamematch || isTypeMatch;
       });
     },
+    requestLists() {
+      return requestLists;
+    }
   },
-  
+  RequestLists: {
+    owner(parent, args, ctx, info) {
+      return users.find(user => {
+        return user.id === parent.owner;
+      });
+    },
+    cards(parent, args, ctx, info) {
+      let newArray = [];
+
+      parent.cards.map(id => {
+        cards.filter(card => {
+          if (card.id === id) {
+            newArray.push(card);
+          }
+        });
+      });
+
+      return newArray;
+    }
+  },
   User: {
-    collection() {
-      return {
-        id: "1",
-        name: "Ranging Raptors",
-        cardText:
-          "Enrage - Whenever Ranging Raptors is dealt damage, you may search your library for a basic land card, put i tonto the battlefield tapped, then shuffle your library.",
-        flavourText:
-          "They cover their territory like a tide of teeth and claws.",
-        convertedManaCost: 3,
-        standardLegal: true,
-        price: 0.35
-      };
+    requestList(parent, args, ctx, info) {
+      return requestLists.find(requestList => {
+        return requestList.owner === parent.id;
+      });
     }
   }
 };
