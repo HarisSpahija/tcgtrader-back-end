@@ -161,11 +161,11 @@ const resolvers = {
       });
     },
     cards(parent, args, ctx, info) {
-      return parent.cards.map(id => {
-        cards.find(card => {
-          card.id === id;
-        });
-      });
+      return parent.cards.map(id => (
+        cards.find(card => (
+          card.id === id
+        ))
+      ))
     }
   },
   User: {
