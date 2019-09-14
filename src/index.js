@@ -48,6 +48,24 @@ const requestLists = [
   }
 ];
 
+const wantLists = [
+  {
+    id: "1",
+    owner: "2",
+    cards: ["1", "3"]
+  },
+  {
+    id: "2",
+    owner: "3",
+    cards: ["1"]
+  },
+  {
+    id: "3",
+    owner: "4",
+    cards: ["2", "3"]
+  }
+];
+
 const cards = [
   {
     id: "1",
@@ -90,6 +108,7 @@ const typeDefs = `
         users(query: String): [User!]!
         cards(query: String): [Card!]!
         requestLists: [RequestLists]
+        wantLists: [WantLists]
         me: User!
     }
 
@@ -110,9 +129,16 @@ const typeDefs = `
         email: String!
         age: Int
         requestList: RequestLists
+        wantList: WantLists
     }
 
     type RequestLists {
+      id: ID!
+      owner: User!
+      cards: [Card!]!
+    }
+
+    type WantLists {
       id: ID!
       owner: User!
       cards: [Card!]!
@@ -152,9 +178,26 @@ const resolvers = {
     },
     requestLists() {
       return requestLists;
+    },
+    wantLists() {
+      return wantLists;
     }
   },
   RequestLists: {
+    owner(parent, args, ctx, info) {
+      return users.find(user => {
+        return user.id === parent.owner;
+      });
+    },
+    cards(parent, args, ctx, info) {
+      return parent.cards.map(id => (
+        cards.find(card => (
+          card.id === id
+        ))
+      ))
+    }
+  },
+  WantLists: {
     owner(parent, args, ctx, info) {
       return users.find(user => {
         return user.id === parent.owner;
@@ -172,6 +215,11 @@ const resolvers = {
     requestList(parent, args, ctx, info) {
       return requestLists.find(requestList => {
         return requestList.owner === parent.id;
+      });
+    },
+    wantList(parent, args, ctx, info) {
+      return wantLists.find(wantList => {
+        return wantList.owner === parent.id;
       });
     }
   }
