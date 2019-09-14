@@ -6,7 +6,8 @@ const users = [
   {
     id: "1",
     name: "Haris Spahija",
-    email: "haris@example.com"
+    email: "haris@example.com",
+    age: "22"
   },
   {
     id: "2",
@@ -26,11 +27,12 @@ const users = [
   {
     id: "5",
     name: "Sophie",
-    email: "sophie@example.com"
+    email: "sophie@example.com",
+    age: "20"
   }
 ];
 
-const requestLists = [
+const offerLists = [
   {
     id: "1",
     owner: "1",
@@ -100,6 +102,7 @@ const cards = [
     price: 0.5
   }
 ];
+
 // Type definitions (schema)
 // All possible types:
 // (scalar) - String, Bolean, Int, Float, ID
@@ -107,8 +110,8 @@ const typeDefs = `
     type Query {
         users(query: String): [User!]!
         cards(query: String): [Card!]!
-        requestLists: [RequestLists]
-        wantLists: [WantLists]
+        offerLists: [OfferList]
+        wantLists: [WantList]
         me: User!
     }
 
@@ -128,17 +131,17 @@ const typeDefs = `
         name: String!
         email: String!
         age: Int
-        requestList: RequestLists
-        wantList: WantLists
+        offerList: OfferList
+        wantList: WantList
     }
 
-    type RequestLists {
+    type OfferList {
       id: ID!
       owner: User!
       cards: [Card!]!
     }
 
-    type WantLists {
+    type WantList {
       id: ID!
       owner: User!
       cards: [Card!]!
@@ -176,45 +179,37 @@ const resolvers = {
         return isNamematch || isTypeMatch;
       });
     },
-    requestLists() {
-      return requestLists;
+    offerLists() {
+      return offerLists;
     },
     wantLists() {
       return wantLists;
     }
   },
-  RequestLists: {
+  OfferList: {
     owner(parent, args, ctx, info) {
       return users.find(user => {
         return user.id === parent.owner;
       });
     },
     cards(parent, args, ctx, info) {
-      return parent.cards.map(id => (
-        cards.find(card => (
-          card.id === id
-        ))
-      ))
+      return parent.cards.map(id => cards.find(card => card.id === id));
     }
   },
-  WantLists: {
+  WantList: {
     owner(parent, args, ctx, info) {
       return users.find(user => {
         return user.id === parent.owner;
       });
     },
     cards(parent, args, ctx, info) {
-      return parent.cards.map(id => (
-        cards.find(card => (
-          card.id === id
-        ))
-      ))
+      return parent.cards.map(id => cards.find(card => card.id === id));
     }
   },
   User: {
-    requestList(parent, args, ctx, info) {
-      return requestLists.find(requestList => {
-        return requestList.owner === parent.id;
+    offerList(parent, args, ctx, info) {
+      return offerLists.find(offerList => {
+        return offerList.owner === parent.id;
       });
     },
     wantList(parent, args, ctx, info) {
