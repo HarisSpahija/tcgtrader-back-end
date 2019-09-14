@@ -139,12 +139,14 @@ const typeDefs = `
       id: ID!
       owner: User!
       cards: [Card!]!
+      possibleTraders: [User]
     }
 
     type WantList {
       id: ID!
       owner: User!
       cards: [Card!]!
+      possibleTraders: [User]
     }
 `;
 
@@ -194,6 +196,22 @@ const resolvers = {
     },
     cards(parent, args, ctx, info) {
       return parent.cards.map(id => cards.find(card => card.id === id));
+    },
+    possibleTraders(parent, args, ctx, info) {
+      let possibleTraderIds = []
+      
+      parent.cards.map(offeredCardId => {
+        wantLists.find(wants => { 
+          if ( wants.cards.includes(offeredCardId)) {
+            possibleTraderIds.push(
+              users.find(user => {
+                return user.id === wants.owner
+              })
+            )
+          }
+        })
+      })
+      return possibleTraderIds
     }
   },
   WantList: {
@@ -204,6 +222,22 @@ const resolvers = {
     },
     cards(parent, args, ctx, info) {
       return parent.cards.map(id => cards.find(card => card.id === id));
+    },
+    possibleTraders(parent, args, ctx, info) {
+      let possibleTraderIds = []
+      
+      parent.cards.map(wantedCardId => {
+        offerLists.find(offers => { 
+          if ( offers.cards.includes(wantedCardId)) {
+            possibleTraderIds.push(
+              users.find(user => {
+                return user.id === offers.owner
+              })
+            )
+          }
+        })
+      })
+      return possibleTraderIds
     }
   },
   User: {
