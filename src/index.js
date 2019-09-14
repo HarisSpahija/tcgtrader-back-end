@@ -198,20 +198,20 @@ const resolvers = {
       return parent.cards.map(id => cards.find(card => card.id === id));
     },
     possibleTraders(parent, args, ctx, info) {
-      let possibleTraderIds = []
-      
+      let possibleTraderIds = [];
+
       parent.cards.map(offeredCardId => {
-        wantLists.find(wants => { 
-          if ( wants.cards.includes(offeredCardId)) {
+        wantLists.find(wants => {
+          if (wants.cards.includes(offeredCardId)) {
             possibleTraderIds.push(
               users.find(user => {
-                return user.id === wants.owner
+                return user.id === wants.owner;
               })
-            )
+            );
           }
-        })
-      })
-      return possibleTraderIds
+        });
+      });
+      return possibleTraderIds;
     }
   },
   WantList: {
@@ -224,20 +224,20 @@ const resolvers = {
       return parent.cards.map(id => cards.find(card => card.id === id));
     },
     possibleTraders(parent, args, ctx, info) {
-      let possibleTraderIds = []
-      
+      let possibleTraderIds = [];
+
       parent.cards.map(wantedCardId => {
-        offerLists.find(offers => { 
-          if ( offers.cards.includes(wantedCardId)) {
+        offerLists.find(offers => {
+          if (offers.cards.includes(wantedCardId)) {
             possibleTraderIds.push(
               users.find(user => {
-                return user.id === offers.owner
+                return user.id === offers.owner;
               })
-            )
+            );
           }
-        })
-      })
-      return possibleTraderIds
+        });
+      });
+      return possibleTraderIds;
     }
   },
   User: {
