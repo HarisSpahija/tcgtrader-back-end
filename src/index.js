@@ -1,11 +1,39 @@
 import { GraphQLServer } from "graphql-yoga";
 
+// Demo user data
+const users = [
+  {
+    id: "1",
+    name: "Haris Spahija",
+    email: "haris@example.com"
+  },
+  {
+    id: "2",
+    name: "George",
+    email: "george@example.com"
+  },
+  {
+    id: "3",
+    name: "Vladimir",
+    email: "vladimir@example.com"
+  },
+  {
+    id: "4",
+    name: "Hristo",
+    email: "hristo@example.com"
+  },
+  {
+    id: "5",
+    name: "Sophie",
+    email: "sophie@example.com"
+  }
+];
 // Type definitions (schema)
 // All possible types:
 // (scalar) - String, Bolean, Int, Float, ID
 const typeDefs = `
     type Query {
-        greeting(name: String): String!
+        users(query: String): [User!]!
         me: User!
         card: Card!
     }
@@ -30,20 +58,20 @@ const typeDefs = `
 `;
 
 // Resolvers
-// parent = 
+// parent =
 // arg = contains arguments supplied to query
 // ctx = context for contextual data such as login tokens
 // info = information about the operation sent to server
 const resolvers = {
   Query: {
-    greeting(parent, args) {
-        const { name } = args
-        if (name) {
-            return  `Hello ${args.name}`
-        } else {
-            return `Hello`
-        }
-       
+    users(parent, args, ctx, info) {
+      if (!args.query) {
+        return users
+      }
+
+      return users.filter((user) => {
+        return user.name.toLowerCase().includes(args.query.toLowerCase())
+      })
     },
     me() {
       return {
@@ -54,17 +82,17 @@ const resolvers = {
       };
     },
     card() {
-        return {
-            id: "1",
-            name: "Ranging Raptors",
-            cardText:
-              "Enrage - Whenever Ranging Raptors is dealt damage, you may search your library for a basic land card, put i tonto the battlefield tapped, then shuffle your library.",
-            flavourText:
-              "They cover their territory like a tide of teeth and claws.",
-            convertedManaCost: 3,
-            standardLegal: true,
-            price: 0.35
-          };
+      return {
+        id: "1",
+        name: "Ranging Raptors",
+        cardText:
+          "Enrage - Whenever Ranging Raptors is dealt damage, you may search your library for a basic land card, put i tonto the battlefield tapped, then shuffle your library.",
+        flavourText:
+          "They cover their territory like a tide of teeth and claws.",
+        convertedManaCost: 3,
+        standardLegal: true,
+        price: 0.35
+      };
     }
   },
   Card: {
