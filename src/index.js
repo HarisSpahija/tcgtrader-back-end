@@ -161,17 +161,11 @@ const resolvers = {
       });
     },
     cards(parent, args, ctx, info) {
-      let newArray = [];
-
-      parent.cards.map(id => {
-        cards.filter(card => {
-          if (card.id === id) {
-            newArray.push(card);
-          }
+      return parent.cards.map(id => {
+        cards.find(card => {
+          card.id === id;
         });
       });
-
-      return newArray;
     }
   },
   User: {
