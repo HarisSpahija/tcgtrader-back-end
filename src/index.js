@@ -120,7 +120,8 @@ const typeDefs = `
       createUser(data: CreateUserInput): User!
       deleteUser(id: ID!): User!
       createCard(data: CardInput): Card!
-      addCardsToWantList(data: addCardsToWantListInput): WantList!
+      addCardsToWantList(data: cardWantListInput): WantList!
+      removeCardsFromWantList(data: cardWantListInput): WantList!
     }
 
     input CreateUserInput {
@@ -139,7 +140,7 @@ const typeDefs = `
         price: Float!  
     }
 
-    input addCardsToWantListInput {
+    input cardWantListInput {
       wantListId: ID!,
       cards: [ID]!
     }
@@ -239,25 +240,25 @@ const resolvers = {
             return user;
         },
         deleteUser(parent, args, ctx, info) {
-            const userIndex = users.findIndex(user => user.id === args.id)
+            const userIndex = users.findIndex(user => user.id === args.id);
 
             if (userIndex === -1) {
-              throw new Error('User not found')
-            }   
+                throw new Error("User not found");
+            }
 
-            const deletedUsers = users.splice(userIndex, 1)
+            const deletedUsers = users.splice(userIndex, 1);
 
-            offerLists = offerLists.filter((offerList) => {
-              const match = offerList.owner === args.id
-              return !match
-            })
+            offerLists = offerLists.filter(offerList => {
+                const match = offerList.owner === args.id;
+                return !match;
+            });
 
-            wantLists = wantLists.filter((wantList) => {
-              const match = wantList.owner === args.id
-              return !match
-            })
+            wantLists = wantLists.filter(wantList => {
+                const match = wantList.owner === args.id;
+                return !match;
+            });
 
-            return deletedUsers[0]
+            return deletedUsers[0];
         },
         createCard(parent, args, ctx, info) {
             const cardAlreadyExists = cards.some(
@@ -283,7 +284,7 @@ const resolvers = {
             );
 
             if (!wantListExists) {
-                throw new Error("List doesnt exist");
+                throw new Error("List doesn't exist");
             }
 
             return wantLists.find(wantList => {
@@ -292,6 +293,23 @@ const resolvers = {
                     return wantList;
                 }
             });
+        },
+        removeCardsFromWantList(parent, args, ctx, info) {
+            const wantListExists = wantLists.some(
+                wantList => wantList.id === args.data.wantListId
+            );
+
+            if (!wantListExists) {
+                throw new Error("List doesn't exist");
+            }
+
+            return wantLists.find(wantList => {              
+              if (wantList.id === args.data.wantListId) {
+                return wantList.cards = wantList.cards.filter((id) => {
+                  return !args.data.cards.includes(id)
+                })               
+              }
+            })
         }
     },
     OfferList: {
