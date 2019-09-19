@@ -119,6 +119,7 @@ const typeDefs = `
     type Mutation {
       createUser(name: String!, email: String!, age: Int): User!
       createCard(name: String!, type: String!, cardText: String!, flavourText: String, convertedManaCost: Int, standardLegal: Boolean!, price: Float!): Card!
+      addCardsToWantList(wantListId: ID!, cards: [ID]!): WantList!
     }
 
     type Card {
@@ -206,9 +207,7 @@ const resolvers = {
 
             const user = {
                 id: uuidv4(),
-                name: args.name,
-                email: args.email,
-                age: args.age
+                ...args
             };
 
             users.push(user);
@@ -226,18 +225,31 @@ const resolvers = {
 
             const card = {
                 id: uuidv4(),
-                name: args.name,
-                type: args.type,
-                cardText: args.cardText,
-                flavourText: args.flavourText,
-                convertedManaCost: args.convertedManaCost,
-                standardLegal: args.standardLegal,
-                price: args.price
+                ...args
             };
 
             cards.push(card);
 
             return card;
+        },
+        addCardsToWantList(parent, args, ctx, info) {
+            const wantListExists = wantLists.some(
+                wantList => wantList.id === args.wantListId
+            );
+
+            if (!wantListExists) {
+                throw new Error("List doesnt exist");
+            }
+
+            
+
+            return wantLists.find(wantList => {
+                if (wantList.id === args.wantListId) {
+                    Array.prototype.push.apply(wantList.cards, args.cards);
+                    return wantList;
+                }
+            });
+
         }
     },
     OfferList: {
