@@ -2,7 +2,7 @@ import { GraphQLServer } from "graphql-yoga";
 import uuidv4 from "uuid/v4";
 
 // Demo user data
-const users = [
+let users = [
     {
         id: "1",
         name: "Haris Spahija",
@@ -32,7 +32,7 @@ const users = [
     }
 ];
 
-const offerLists = [
+let offerLists = [
     {
         id: "1",
         owner: "1",
@@ -50,7 +50,7 @@ const offerLists = [
     }
 ];
 
-const wantLists = [
+let wantLists = [
     {
         id: "1",
         owner: "2",
@@ -118,6 +118,7 @@ const typeDefs = `
 
     type Mutation {
       createUser(data: CreateUserInput): User!
+      deleteUser(id: ID!): User!
       createCard(data: CardInput): Card!
       addCardsToWantList(data: addCardsToWantListInput): WantList!
     }
@@ -220,7 +221,9 @@ const resolvers = {
     },
     Mutation: {
         createUser(parent, args, ctx, info) {
-            const emailTaken = users.some(user => user.email === args.data.email);
+            const emailTaken = users.some(
+                user => user.email === args.data.email
+            );
 
             if (emailTaken) {
                 throw new Error("Email taken");
@@ -234,6 +237,27 @@ const resolvers = {
             users.push(user);
 
             return user;
+        },
+        deleteUser(parent, args, ctx, info) {
+            const userIndex = users.findIndex(user => user.id === args.id)
+
+            if (userIndex === -1) {
+              throw new Error('User not found')
+            }   
+
+            const deletedUsers = users.splice(userIndex, 1)
+
+            offerLists = offerLists.filter((offerList) => {
+              const match = offerList.owner === args.id
+              return !match
+            })
+
+            wantLists = wantLists.filter((wantList) => {
+              const match = wantList.owner === args.id
+              return !match
+            })
+
+            return deletedUsers[0]
         },
         createCard(parent, args, ctx, info) {
             const cardAlreadyExists = cards.some(
@@ -262,15 +286,12 @@ const resolvers = {
                 throw new Error("List doesnt exist");
             }
 
-            
-
             return wantLists.find(wantList => {
                 if (wantList.id === args.data.wantListId) {
                     Array.prototype.push.apply(wantList.cards, args.data.cards);
                     return wantList;
                 }
             });
-
         }
     },
     OfferList: {
