@@ -117,9 +117,30 @@ const typeDefs = `
     }
 
     type Mutation {
-      createUser(name: String!, email: String!, age: Int): User!
-      createCard(name: String!, type: String!, cardText: String!, flavourText: String, convertedManaCost: Int, standardLegal: Boolean!, price: Float!): Card!
-      addCardsToWantList(wantListId: ID!, cards: [ID]!): WantList!
+      createUser(data: CreateUserInput): User!
+      createCard(data: CardInput): Card!
+      addCardsToWantList(data: addCardsToWantListInput): WantList!
+    }
+
+    input CreateUserInput {
+      name: String!,
+      email: String!,
+      age: Int
+    }
+
+    input CardInput {
+        name: String!
+        type: String!
+        cardText: String!
+        flavourText: String
+        convertedManaCost: Int
+        standardLegal: Boolean!
+        price: Float!  
+    }
+
+    input addCardsToWantListInput {
+      wantListId: ID!,
+      cards: [ID]!
     }
 
     type Card {
@@ -199,7 +220,7 @@ const resolvers = {
     },
     Mutation: {
         createUser(parent, args, ctx, info) {
-            const emailTaken = users.some(user => user.email === args.email);
+            const emailTaken = users.some(user => user.email === args.data.email);
 
             if (emailTaken) {
                 throw new Error("Email taken");
@@ -207,7 +228,7 @@ const resolvers = {
 
             const user = {
                 id: uuidv4(),
-                ...args
+                ...args.data
             };
 
             users.push(user);
@@ -216,7 +237,7 @@ const resolvers = {
         },
         createCard(parent, args, ctx, info) {
             const cardAlreadyExists = cards.some(
-                card => card.name === args.name
+                card => card.name === args.data.name
             );
 
             if (cardAlreadyExists) {
@@ -225,7 +246,7 @@ const resolvers = {
 
             const card = {
                 id: uuidv4(),
-                ...args
+                ...args.data
             };
 
             cards.push(card);
@@ -234,7 +255,7 @@ const resolvers = {
         },
         addCardsToWantList(parent, args, ctx, info) {
             const wantListExists = wantLists.some(
-                wantList => wantList.id === args.wantListId
+                wantList => wantList.id === args.data.wantListId
             );
 
             if (!wantListExists) {
@@ -244,8 +265,8 @@ const resolvers = {
             
 
             return wantLists.find(wantList => {
-                if (wantList.id === args.wantListId) {
-                    Array.prototype.push.apply(wantList.cards, args.cards);
+                if (wantList.id === args.data.wantListId) {
+                    Array.prototype.push.apply(wantList.cards, args.data.cards);
                     return wantList;
                 }
             });
