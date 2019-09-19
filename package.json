@@ -16,7 +16,8 @@
     "graphql-tools": "^4.0.5",
     "graphql-yoga": "^1.18.3",
     "merge-graphql-schemas": "^1.7.0",
-    "pg-promise": "^9.1.4"
+    "pg-promise": "^9.1.4",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "nodemon": "^1.19.2"
