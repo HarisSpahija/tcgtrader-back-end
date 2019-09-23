@@ -1,0 +1,70 @@
+type Query {
+  users(query: String): [User!]!
+  cards(query: String): [Card!]!
+  offerLists: [OfferList]
+  wantLists: [WantList]
+  me: User!
+}
+
+type Mutation {
+  createUser(data: CreateUserInput): User!
+  deleteUser(id: ID!): User!
+  createCard(data: CardInput): Card!
+  addCardsToWantList(data: cardWantListInput): WantList!
+  removeCardsFromWantList(data: cardWantListInput): WantList!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  age: Int
+}
+
+input CardInput {
+  name: String!
+  type: String!
+  cardText: String!
+  flavourText: String
+  convertedManaCost: Int
+  standardLegal: Boolean!
+  price: Float!
+}
+
+input cardWantListInput {
+  wantListId: ID!
+  cards: [ID]!
+}
+
+type Card {
+  id: ID!
+  name: String!
+  type: String!
+  cardText: String!
+  flavourText: String
+  convertedManaCost: Int
+  standardLegal: Boolean!
+  price: Float!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  age: Int
+  offerList: OfferList
+  wantList: WantList
+}
+
+type OfferList {
+  id: ID!
+  owner: User!
+  cards: [Card!]!
+  possibleTraders: [User]
+}
+
+type WantList {
+  id: ID!
+  owner: User!
+  cards: [Card!]!
+  possibleTraders: [User]
+}
