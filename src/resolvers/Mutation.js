@@ -88,7 +88,52 @@ const Mutation = {
         }));
       }
     });
+  },
+  updateCard(parent, args, { db }, info) {
+    const { id, data } = args;
+    const card = db.cards.find(card => card.id === id);
+
+    if (!card) {
+      throw new Error("Card not found");
+    }
+
+    if (typeof data.name === "string") {
+      const cardAlreadyExists = db.cards.some(card => card.name === data.name);
+
+      if (cardAlreadyExists) {
+        throw new Error("Card name already exists");
+      }
+
+      card.name = data.name;
+    }
+
+    // Type
+    if (typeof data.type === "string") {
+      card.type = data.type;
+    }
+
+    // Card Text
+    if (typeof data.cardText !== "undefined") {
+      card.cardText = data.cardText;
+    }
+
+    // Flavour Text
+    if (typeof data.flavourText !== "undefined") {
+      card.flavourText = data.flavourText;
+    }
+
+    // Standard Legal
+    if (typeof data.standardLegal !== "undefined") {
+      card.standardLegal = data.standardLegal;
+    }
+
+    // Price
+    if (typeof data.price !== "undefined") {
+      card.price = data.price;
+    }
+
+    return card
   }
 };
 
-export { Mutation as default }
+export { Mutation as default };

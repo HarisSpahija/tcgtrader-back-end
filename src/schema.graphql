@@ -9,6 +9,7 @@ type Query {
 type Mutation {
   createUser(data: CreateUserInput): User!
   deleteUser(id: ID!): User!
+  updateCard(id: ID!, data: UpdateCardInput!): Card!
   createCard(data: CardInput): Card!
   addCardsToWantList(data: cardWantListInput): WantList!
   removeCardsFromWantList(data: cardWantListInput): WantList!
@@ -28,6 +29,16 @@ input CardInput {
   convertedManaCost: Int
   standardLegal: Boolean!
   price: Float!
+}
+
+input UpdateCardInput {
+  name: String
+  type: String
+  cardText: String
+  flavourText: String
+  convertedManaCost: Int
+  standardLegal: Boolean
+  price: Float
 }
 
 input cardWantListInput {
