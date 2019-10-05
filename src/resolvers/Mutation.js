@@ -38,6 +38,43 @@ const Mutation = {
 
     return deletedUsers[0];
   },
+  updateUser(parent, args, { db }, info) {
+    const { id, data } = args;
+    const user = db.users.find(user => user.id === id);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // User name
+    if (typeof data.name === "string") {
+      const userAlreadyExists = db.users.some(user => user.name === data.name);
+
+      if (userAlreadyExists) {
+        throw new Error("User name already exists");
+      }
+
+      user.name = data.name;
+    }
+
+    // User email
+    if (typeof data.email === "string") {
+      const emailAlreadyExists = db.users.some(user => user.email === data.email);
+
+      if (emailAlreadyExists) {
+        throw new Error("Email already exists");
+      }
+
+      user.email = data.email;
+    }
+
+    // Age
+    if (typeof data.age === "number") {
+      user.age = data.age;
+    }
+
+    return user
+  },
   createCard(parent, args, { db }, info) {
     const cardAlreadyExists = db.cards.some(
       card => card.name === args.data.name
@@ -97,6 +134,7 @@ const Mutation = {
       throw new Error("Card not found");
     }
 
+    // Card Name
     if (typeof data.name === "string") {
       const cardAlreadyExists = db.cards.some(card => card.name === data.name);
 
