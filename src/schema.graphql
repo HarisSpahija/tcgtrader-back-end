@@ -16,6 +16,10 @@ type Mutation {
   removeCardsFromWantList(data: cardWantListInput): WantList!
 }
 
+type Subscription {
+  count: Int!
+}
+
 input CreateUserInput {
   name: String!
   email: String!
