@@ -11,10 +11,10 @@ const OfferList = {
     let possibleTraderIds = [];
 
     parent.cards.map(offeredCardId => {
-      wantLists.find(wants => {
+      db.wantLists.find(wants => {
         if (wants.cards.includes(offeredCardId)) {
           possibleTraderIds.push(
-            users.find(user => {
+            db.users.find(user => {
               return user.id === wants.owner;
             })
           );
