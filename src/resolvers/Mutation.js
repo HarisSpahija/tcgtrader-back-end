@@ -93,39 +93,6 @@ const Mutation = {
 
     return card;
   },
-  addCardsToWantList(parent, args, { db }, info) {
-    const wantListExists = db.wantLists.some(
-      wantList => wantList.id === args.data.wantListId
-    );
-
-    if (!wantListExists) {
-      throw new Error("List doesn't exist");
-    }
-
-    return db.wantLists.find(wantList => {
-      if (wantList.id === args.data.wantListId) {
-        Array.prototype.push.apply(wantList.cards, args.data.cards);
-        return wantList;
-      }
-    });
-  },
-  removeCardsFromWantList(parent, args, { db }, info) {
-    const wantListExists = db.wantLists.some(
-      wantList => wantList.id === args.data.wantListId
-    );
-
-    if (!wantListExists) {
-      throw new Error("List doesn't exist");
-    }
-
-    return db.wantLists.find(wantList => {
-      if (wantList.id === args.data.wantListId) {
-        return (wantList.cards = wantList.cards.filter(id => {
-          return !args.data.cards.includes(id);
-        }));
-      }
-    });
-  },
   updateCard(parent, args, { db }, info) {
     const { id, data } = args;
     const card = db.cards.find(card => card.id === id);
@@ -171,7 +138,43 @@ const Mutation = {
     }
 
     return card
-  }
+  },
+  // TODO: delete card
+  addCardsToWantList(parent, args, { db }, info) {
+    const wantListExists = db.wantLists.some(
+      wantList => wantList.id === args.data.wantListId
+    );
+
+    if (!wantListExists) {
+      throw new Error("List doesn't exist");
+    }
+
+    return db.wantLists.find(wantList => {
+      if (wantList.id === args.data.wantListId) {
+        Array.prototype.push.apply(wantList.cards, args.data.cards);
+        return wantList;
+      }
+    });
+  },
+  removeCardsFromWantList(parent, args, { db }, info) {
+    const wantListExists = db.wantLists.some(
+      wantList => wantList.id === args.data.wantListId
+    );
+
+    if (!wantListExists) {
+      throw new Error("List doesn't exist");
+    }
+
+    return db.wantLists.find(wantList => {
+      if (wantList.id === args.data.wantListId) {
+        return (wantList.cards = wantList.cards.filter(id => {
+          return !args.data.cards.includes(id);
+        }));
+      }
+    });
+  },
+  // TODO: add card to offer list
+  // TODO: remove cards from offer list
 };
 
 export { Mutation as default };
