@@ -1,24 +1,29 @@
-import { GraphQLServer } from "graphql-yoga";
+import { GraphQLServer, PubSub } from "graphql-yoga";
 import db from './db';
-import Card from './resolvers/Card';
-import Mutation from './resolvers/Mutation';
-import OfferList from './resolvers/OfferList';
 import Query from './resolvers/Query';
+import Mutation from './resolvers/Mutation';
+import Subscription from './resolvers/Subscription'
 import User from './resolvers/User';
+import OfferList from './resolvers/OfferList';
 import WantList from './resolvers/WantList';
+import Card from './resolvers/Card';
+
+const pubsub = new PubSub()
 
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
   resolvers: {
-    Card,
-    Mutation,
-    OfferList,
     Query,
+    Mutation,
+    Subscription,
     User,
+    Card,
+    OfferList,
     WantList,
   },
   context: {
-    db
+    db,
+    pubsub
   }
 });
 
