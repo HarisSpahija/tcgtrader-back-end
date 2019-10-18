@@ -7,11 +7,12 @@ import User from './resolvers/User';
 import OfferList from './resolvers/OfferList';
 import WantList from './resolvers/WantList';
 import Card from './resolvers/Card';
+require('dotenv').config();
 
 const pubsub = new PubSub()
 
 const opts = {
-  port: 8080
+  port: process.env.PORT || 8080
 };
 
 const server = new GraphQLServer({
@@ -31,6 +32,6 @@ const server = new GraphQLServer({
   }
 });
 
-server.start(opts, () => {
+server.start(opts.port, () => {
   console.log(`Server is running at http://localhost:${opts.port}/`);
 });
