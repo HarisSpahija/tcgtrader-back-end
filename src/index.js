@@ -10,6 +10,10 @@ import Card from './resolvers/Card';
 
 const pubsub = new PubSub()
 
+const opts = {
+  port: 8080
+};
+
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
   resolvers: {
@@ -27,6 +31,6 @@ const server = new GraphQLServer({
   }
 });
 
-server.start(() => {
-  console.log("Server is running");
+server.start(opts, () => {
+  console.log(`Server is running at http://localhost:${opts.port}/`);
 });
