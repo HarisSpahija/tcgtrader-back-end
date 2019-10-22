@@ -17,7 +17,6 @@ type Mutation {
 }
 
 type Subscription {
-  count: Int!
   offerList(userId: ID!): OfferList!
   wantList(userId: ID!): OfferList!
 }
