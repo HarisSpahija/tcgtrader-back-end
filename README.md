@@ -1,6 +1,22 @@
-# TCG-Trader
+<h1 align="center"> TCG-Trader (Backend)</h1>
 
-![GitHub contributors](https://img.shields.io/github/contributors/HarisSpahija/tcgtrader-back-end) ![HACKTOBERFEST](https://img.shields.io/badge/HACKTOBERFEST-GET%20STARTED-blueviolet) ![GitHub last commit](https://img.shields.io/github/last-commit/HarisSpahija/tcgtrader-back-end) ![GitHub](https://img.shields.io/github/license/HarisSpahija/tcgtrader-back-end) [![CircleCI](https://circleci.com/gh/HarisSpahija/tcgtrader-back-end/tree/master.svg?style=svg)](https://circleci.com/gh/HarisSpahija/tcgtrader-back-end/tree/master)
+<p align="center">
+  <a href="https://github.com/HarisSpahija/tcgtrader-back-end/graphs/contributors">
+  <img src="https://img.shields.io/github/contributors/HarisSpahija/tcgtrader-back-end" alt="GitHub contributors"/>
+  </a>
+  <a href="https://github.com/HarisSpahija/tcgtrader-back-end/commits/master">
+  <img src="https://img.shields.io/github/last-commit/HarisSpahija/tcgtrader-back-end" alt="GitHub last commit"/>
+  </a>
+  <a href="https://github.com/HarisSpahija/tcgtrader-back-end/blob/master/LICENSE">
+  <img src="https://img.shields.io/github/license/HarisSpahija/tcgtrader-back-end" alt="GitHub"/>
+  </a>
+  <a href=https://circleci.com/gh/HarisSpahija/tcgtrader-back-end/tree/master"">
+  <img src="https://circleci.com/gh/HarisSpahija/tcgtrader-back-end/tree/master.svg?style=svg" alt="CircleCI"/>
+  </a>
+  <a href="https://github.com/HarisSpahija/tcgtrader-back-end/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3AHacktoberfest">
+  <img src="https://img.shields.io/badge/HACKTOBERFEST-GET%20STARTED-blueviolet" alt="Hacktoberfest"/>
+  </a>
+</p>
 
 TCG Trader is a tool to keep track of the cards your group owns and suggests trades between users. This way players in local groups can share their card pool for trading, show what cards they are looking for and show what cards they offer.
 
