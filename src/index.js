@@ -1,15 +1,15 @@
 import { GraphQLServer, PubSub } from "graphql-yoga";
-import db from './db';
-import Query from './resolvers/Query';
-import Mutation from './resolvers/Mutation';
-import Subscription from './resolvers/Subscription'
-import User from './resolvers/User';
-import OfferList from './resolvers/OfferList';
-import WantList from './resolvers/WantList';
-import Card from './resolvers/Card';
-require('dotenv').config();
+import db from "./db";
+import Query from "./resolvers/Query";
+import Mutation from "./resolvers/Mutation";
+import Subscription from "./resolvers/Subscription";
+import User from "./resolvers/User";
+import OfferList from "./resolvers/OfferList";
+import WantList from "./resolvers/WantList";
+import Card from "./resolvers/Card";
+require("dotenv").config();
 
-const pubsub = new PubSub()
+const pubsub = new PubSub();
 
 const opts = {
   port: process.env.PORT || 8080
@@ -24,7 +24,7 @@ const server = new GraphQLServer({
     User,
     Card,
     OfferList,
-    WantList,
+    WantList
   },
   context: {
     db,
@@ -32,6 +32,6 @@ const server = new GraphQLServer({
   }
 });
 
-server.start(opts.port, () => {
+server.start(opts, () => {
   console.log(`Server is running at http://localhost:${opts.port}/`);
 });
