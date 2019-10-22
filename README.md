@@ -16,6 +16,11 @@ All packages can be installed using npm like so:
 
 `npm install`
 
+Copy `.env.example` into a new file at the root folder `.env` to change the desired port.
+By default port will run at `8080` on:
+
+`localhost:8080`
+
 To run the graphql playground you can run:
 
 `npm start`
