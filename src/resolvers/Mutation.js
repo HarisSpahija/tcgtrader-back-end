@@ -142,6 +142,11 @@ const Mutation = {
     return card;
   },
   // TODO: delete card
+  // deleteCard(parent, args, { db }, info) {
+  // const { id } = args
+  //
+  // return deletedCard
+  // }
   addCardsToWantList(parent, args, { db, pubsub }, info) {
     const user = db.users.find(user => user.id === args.data.userId);
 
