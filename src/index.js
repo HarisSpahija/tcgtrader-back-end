@@ -11,10 +11,8 @@ require('dotenv').config();
 
 const pubsub = new PubSub()
 
-//This code works fine. just look, push it over on hosting panel and it works fine. 
-const opts = {
-  port: process.env.PORT || 8080
-};
+//This code works fine. just look, push it over on hosting panel and it works fine.
+var port = process.env.PORT || 8080;
 
 const server = new GraphQLServer({
   typeDefs: "./src/schema.graphql",
@@ -33,6 +31,6 @@ const server = new GraphQLServer({
   }
 });
 
-server.start(opts.port, () => {
-  console.log(`Server is running at http://localhost:${opts.port}/`);
+server.start(port, () => {
+  console.log(`Server is running at http://localhost:`+port+`/`);
 });
