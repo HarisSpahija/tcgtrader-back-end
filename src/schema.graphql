@@ -18,6 +18,8 @@ type Mutation {
 
 type Subscription {
   count: Int!
+  offerList(userId: ID!): OfferList!
+  wantList(userId: ID!): OfferList!
 }
 
 input CreateUserInput {
@@ -53,7 +55,7 @@ input UpdateCardInput {
 }
 
 input cardWantListInput {
-  wantListId: ID!
+  userId: ID!
   cards: [ID]!
 }
 

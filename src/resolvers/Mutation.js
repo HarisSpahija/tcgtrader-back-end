@@ -59,7 +59,9 @@ const Mutation = {
 
     // User email
     if (typeof data.email === "string") {
-      const emailAlreadyExists = db.users.some(user => user.email === data.email);
+      const emailAlreadyExists = db.users.some(
+        user => user.email === data.email
+      );
 
       if (emailAlreadyExists) {
         throw new Error("Email already exists");
@@ -73,7 +75,7 @@ const Mutation = {
       user.age = data.age;
     }
 
-    return user
+    return user;
   },
   createCard(parent, args, { db }, info) {
     const cardAlreadyExists = db.cards.some(
@@ -137,44 +139,86 @@ const Mutation = {
       card.price = data.price;
     }
 
-    return card
+    return card;
   },
   // TODO: delete card
-  addCardsToWantList(parent, args, { db }, info) {
-    const wantListExists = db.wantLists.some(
-      wantList => wantList.id === args.data.wantListId
-    );
+  addCardsToWantList(parent, args, { db, pubsub }, info) {
+    const user = db.users.find(user => user.id === args.data.userId);
 
-    if (!wantListExists) {
-      throw new Error("List doesn't exist");
+    if (!user) {
+      throw new Error("User is not found");
     }
 
+    const hasWantList = db.wantLists.find(wantList => wantList.owner === user.id);
+
+    if (!hasWantList) {
+      throw new Error("User does not have a wantList");
+    }
+
+    // TODO: Create wantList functionality
+
     return db.wantLists.find(wantList => {
-      if (wantList.id === args.data.wantListId) {
+      if (wantList.owner === args.data.userId) {
         Array.prototype.push.apply(wantList.cards, args.data.cards);
+        pubsub.publish(`wantList ${wantList.owner}`, { wantList });
         return wantList;
       }
     });
   },
   removeCardsFromWantList(parent, args, { db }, info) {
-    const wantListExists = db.wantLists.some(
-      wantList => wantList.id === args.data.wantListId
-    );
+    const user = db.users.find(user => user.id === args.data.userId);
 
-    if (!wantListExists) {
-      throw new Error("List doesn't exist");
+    if (!user) {
+      throw new Error("User is not found");
+    }
+
+    const hasWantList = db.wantLists.find(wantList => wantList.owner === user.id);
+
+    if (!hasWantList) {
+      throw new Error("User does not have a wantList");
     }
 
     return db.wantLists.find(wantList => {
-      if (wantList.id === args.data.wantListId) {
+      if (wantList.owner === args.data.userId) {
         return (wantList.cards = wantList.cards.filter(id => {
+          pubsub.publish(`wantList ${wantList.owner}`, { wantList });
           return !args.data.cards.includes(id);
         }));
       }
     });
-  },
-  // TODO: add card to offer list
-  // TODO: remove cards from offer list
+  }
+  // TODO: add card to offer list ( https://github.com/HarisSpahija/tcgtrader-back-end/issues/3 )
+  // addCardsToOfferList(parent, args, { db }, info) {
+    // Check if user exists
+    // const user = db.users.find(user => user.id === args.data.userId);
+    // if (!user) {
+    //   throw new Error("User is not found");
+    // }
+    // Check if user has offerList
+    // const hasOfferList = db.offerLists.find(offerList => offerList.owner === user.id);
+    // if (!hasOfferList) {
+    //   throw new Error("User does not have a wantList");
+    // }
+    // 
+    // TODO: Create wantList functionality
+    // 
+    // return offerList functionality
+  // }
+
+  // TODO: remove cards from offer list ( https://github.com/HarisSpahija/tcgtrader-back-end/issues/4 )
+  // removeCardsFromOfferList(parent, args, { db }, info) {
+    // Check if user exists
+    // const user = db.users.find(user => user.id === args.data.userId);
+    // if (!user) {
+    //   throw new Error("User is not found");
+    // }
+    // Check if user has offerList
+    // const hasOfferList = db.offerLists.find(offerList => offerList.owner === user.id);
+    // if (!hasOfferList) {
+    //   throw new Error("User does not have a wantList");
+    // }
+    // return offerList functionality
+  // }
 };
 
 export { Mutation as default };
