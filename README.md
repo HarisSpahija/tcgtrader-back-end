@@ -53,3 +53,7 @@ arg = contains arguments supplied from query
 ctx = context for contextual data such as login tokens
 info = information about the operation sent to server`
 ```
+
+### Domain Model
+
+<img src="https://user-images.githubusercontent.com/42251286/67411635-39926e80-f5be-11e9-8d84-a9b3f0bc4fd2.png" alt="Domain Model"/>
