@@ -18,7 +18,7 @@
   </a>
 </p>
 
-TCG Trader is a tool to keep track of the cards your group owns and suggests trades between users. This way players in local groups can share their card pool for trading, show what cards they are looking for and show what cards they offer.
+TCG Trader is a tool to keep track of the cards your group owns and suggests trades between users. This way players in local groups can share their card pool for trading, show what cards they are looking for and show what cards they offer. This project is Open Source and power by Hacktoberfest community, feel free to contribute and make sure that your contributions are meaningfull!
 
 ### First timers!
 
@@ -53,3 +53,7 @@ arg = contains arguments supplied from query
 ctx = context for contextual data such as login tokens
 info = information about the operation sent to server`
 ```
+
+### Domain Model
+
+<img src="https://user-images.githubusercontent.com/42251286/67411635-39926e80-f5be-11e9-8d84-a9b3f0bc4fd2.png" alt="Domain Model"/>
