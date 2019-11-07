@@ -95,7 +95,7 @@ const Mutation = {
 
     return card;
   },
-  updateCard(parent, args, { db }, info) {
+  updateCard(parent, args, { db, pubsub }, info) {
     const { id, data } = args;
     const card = db.cards.find(card => card.id === id);
 
@@ -138,6 +138,13 @@ const Mutation = {
     if (typeof data.price !== "undefined") {
       card.price = data.price;
     }
+
+    pubsub.publish(`card ${card.id}`, { 
+      card: {
+        mutation: 'UPDATED',
+        data: card
+      } 
+     });
 
     return card;
   },

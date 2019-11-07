@@ -19,6 +19,7 @@ type Mutation {
 type Subscription {
   offerList(userId: ID!): OfferList!
   wantList(userId: ID!): OfferList!
+  card(cardId: ID!): CardSubscriptionPayload!
 }
 
 input CreateUserInput {
@@ -90,4 +91,9 @@ type WantList {
   owner: User!
   cards: [Card!]!
   possibleTraders: [User]
+}
+
+type CardSubscriptionPayload {
+  mutation: String!
+  data: Card!
 }
