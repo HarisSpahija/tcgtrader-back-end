@@ -139,7 +139,12 @@ const Mutation = {
       card.price = data.price;
     }
 
-    pubsub.publish(`card ${card.id}`, { card });
+    pubsub.publish(`card ${card.id}`, { 
+      card: {
+        mutation: 'UPDATED',
+        data: card
+      } 
+     });
 
     return card;
   },
