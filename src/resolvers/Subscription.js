@@ -34,6 +34,17 @@ const Subscription = {
     //   return pubsub.asyncIterator(`offerList ${userId}`) // if userId = 1, channel is offerList 1
     // }
   // }
+  card: {
+    subscribe(parent, { cardId }, { db, pubsub }, info) {
+      const card = db.cards.find((card) => card.id === cardId)
+
+      if (!card) {
+        throw new Error('Card is not found')
+      }
+
+      return pubsub.asyncIterator(`card ${cardId}`) // if cardId = 1, channel is card 1
+    }
+  }
 };
 
 export { Subscription as default };
